@@ -28,7 +28,6 @@ part1: {
 part2: {
 	let tot = 1;
 	for (let it of [[1, 1], [3, 1], [5, 1], [7, 1], [1, 2]]) {
-		console.log(it)
 		let loc = {x: 1, y: 1};
 		let trees = 0;
 		while (true) {
