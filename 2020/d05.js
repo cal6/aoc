@@ -34,7 +34,7 @@ part1: {
 
 
 part2: {
-	for (let it = 1; it < ids.length - 2; ++it) {
+	for (let it = 0; it < ids.length - 2; ++it) {
 		if (ids[it] === ids[it + 1] + 2) {
 			console.log('match part 2', ids[it]-1);
 			break;
