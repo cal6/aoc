@@ -21,7 +21,6 @@ part1: {
 	resetCube();
 	const countNeighbours = (cube, ix, iy, iz) => {
 		let neighbours = 0;
-		let it = 0;
 		for (let x = ix-1; x <= ix+1; x++) {
 			for (let y = iy-1; y <= iy+1; y++) {
 				for (let z = iz-1; z <= iz+1; z++) {
@@ -48,10 +47,10 @@ part1: {
 		}
 	}
 	for (let i = 0; i < 6; i++) {
-		min_x--; min_y--; 
-		max_x++; max_y++;
+		min_x--; max_x++;
+		min_y--; max_y++;
 		min_z--; max_z++;
-		let p_cube = new Map(cube);
+		let p_cube = cube;
 		cube = new Map();
 		for (let x = min_x; x <= max_x; x++) {
 			for (let y = min_y; y <= max_y; y++) {
@@ -71,7 +70,6 @@ part2: {
 	resetCube();
 	const countNeighbours = (cube, ix, iy, iz, iw) => {
 		let neighbours = 0;
-		let it = 0;
 		for (let x = ix-1; x <= ix+1; x++) {
 			for (let y = iy-1; y <= iy+1; y++) {
 				for (let z = iz-1; z <= iz+1; z++) {
@@ -100,11 +98,11 @@ part2: {
 		}
 	}
 	for (let i = 0; i < 6; i++) {
-		min_x--; min_y--; 
-		max_x++; max_y++;
+		min_x--; max_x++;
+		min_y--; max_y++;
 		min_z--; max_z++;
 		min_w--; max_w++;
-		let p_cube = new Map(cube);
+		let p_cube = cube;
 		cube = new Map();
 		for (let w = min_w; w <= max_w; w++) {
 			for (let x = min_x; x <= max_x; x++) {
