@@ -12,37 +12,40 @@ const checkSum = (sum) => {
 	return '['+Math.floor(sum)+','+Math.ceil(sum)+']';
 }
 
+const getstartend = (s, lvl) => {
+	let cnt = 0;
+	let start = end = -1;
+	s.split('').forEach((c, i) => {
+		if (end > -1) return;
+		if (c === '[') ++cnt;
+		if (c === ']') --cnt;
+		if (cnt >= lvl && end < 0 && c === '[') start = i;
+		if (start > -1 && end < 0 && c === ']') end = i+1;
+	});
+	return [start, end];
+}
+
 const expl = (a) => {
 	let s = JSON.stringify(a, '', '');
+	let c, match;
 	while (true) {
-		let cnt = 0;
-		let start = end = -1;
-		s.split('').forEach((c, i) => {
-			if (end > -1) return;
-			if (c === '[') ++cnt;
-			if (c === ']') --cnt;
-			if (cnt >= 5 && end < 0 && c === '[') start = i;
-			if (start > -1 && end < 0 && c === ']') end = i+1;
-		});
+		const [start, end] = getstartend(s, 5);
 		if (start === -1) {
-			let c = false;
 			[c, s] = splt(s);
 			if (!c) break;
 			continue;
 		};
-
-		// Regex magic
 		let nums = s.substr(start, end-start);
 		let p1 = s.substr(0, start)
 		let p2 = s.substr(end);
 		nums = eval(nums);
-		if (p1.match(/.*(?:\D|^)(\d+)/) !== null) {
-			let num = parseInt(p1.match(/[0-9]+(?!.*[0-9])/)[0], 10);
+		if ((match = p1.match(/.*(?:\D|^)(\d+)/)) !== null) {
+			let num = parseInt(match[1], 10);
 			let sum = num + nums[0];
 			p1 = p1.replace(/[0-9]+(?!.*[0-9])/, sum);
 		}
-		if (p2.match(/[0-9]+/)) {
-			let num = parseInt(p2.match(/[0-9]+/)[0], 10);
+		if ((match = p2.match(/[0-9]+/)) !== null) {
+			let num = parseInt(match[0], 10);
 			let sum = num + nums[1];
 			p2 = p2.replace(/[0-9]+/, sum);
 		}
@@ -52,8 +55,8 @@ const expl = (a) => {
 }
 
 const splt = (s) => {
-	const match = s.match(/[0-9]{2,}/);
-	if (match) {
+	let match;
+	if ((match = s.match(/[0-9]{2,}/)) !== null) {
 		num = parseInt(match[0], 10);
 		s = s.replace(num, '['+Math.floor(num/2)+','+Math.ceil(num/2)+']');
 	}
@@ -63,21 +66,11 @@ const splt = (s) => {
 const sum = (a) => {
 	let s = JSON.stringify(a, '', '');
 	while (true) {
-		let cnt = 0;
-		let start = end = -1;
-		s.split('').forEach((c, i) => {
-			if (end > -1) return;
-			if (c === '[') ++cnt;
-			if (c === ']') --cnt;
-			if (end < 0 && c === '[') start = i;
-			if (start > -1 && end < 0 && c === ']') end = i+1;
-		});
+		const [start, end] = getstartend(s, 0);
 		if (start < 0) break;
 		let nums = eval(s.substr(start, end-start));
-		let p1 = s.substr(0, start)
-		let p2 = s.substr(end);
 		let sum = nums[0]*3 + nums[1]*2;
-		s = p1 + sum + p2;
+		s = s.substr(0, start) + sum + s.substr(end);
 	}
 	return s;
 }
