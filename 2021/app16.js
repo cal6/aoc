@@ -97,8 +97,6 @@ const parsePackagesData = (package) => {
 			console.log('Unknown type_id ['+package.type_id+']');
 			process.exit();
 	}
-	console.log(sums);
-	return sum;
 }
 
 
