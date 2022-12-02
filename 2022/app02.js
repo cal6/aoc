@@ -1,22 +1,19 @@
 const fs = require('fs');
 
 
+const data = fs.readFileSync('data02.txt').toString('utf8')
+		.replace(/A/g, '1').replace(/B/g, '2').replace(/C/g, '3')
+		.replace(/X/g, '1').replace(/Y/g, '2').replace(/Z/g, '3')
+		.split("\n");
 
-const data = fs.readFileSync('data02.txt').toString('utf8').split("\n");
 
 {
 	let res = 0;
 	data.forEach(row => {
-		const [e, y] = row.split(' ');
-		if (y === 'X') res += 1;
-		if (y === 'Y') res += 2;
-		if (y === 'Z') res += 3;
-		if (e === 'A' && y === 'Y') res += 6;
-		if (e === 'B' && y === 'Z') res += 6;
-		if (e === 'C' && y === 'X') res += 6;
-		if (e === 'A' && y === 'X') res += 3;
-		if (e === 'B' && y === 'Y') res += 3;
-		if (e === 'C' && y === 'Z') res += 3;
+		const [e, y] = row.split(' ').map(n => parseInt(n, 10));
+		res += y;
+		if (e === y) res += 3;
+		else if (e === y - 1 || e === y + 2) res += 6;
 	});
 	console.log('Result 1', res);
 }
@@ -25,16 +22,12 @@ const data = fs.readFileSync('data02.txt').toString('utf8').split("\n");
 {
 	let res = 0;
 	data.forEach(row => {
-		const [e, y] = row.split(' ');
-		if (e === 'A' && y === 'Z') res += 6 + 2;
-		else if (e === 'B' && y === 'Z') res += 6 + 3;
-		else if (e === 'C' && y === 'Z') res += 6 + 1;
-		else if (e === 'A' && y === 'Y') res += 3 + 1;
-		else if (e === 'B' && y === 'Y') res += 3 + 2;
-		else if (e === 'C' && y === 'Y') res += 3 + 3;
-		else if (e === 'A' && y === 'X') res += 0 + 3;
-		else if (e === 'B' && y === 'X') res += 0 + 1;
-		else if (e === 'C' && y === 'X') res += 0 + 2;
+		const [e, y] = row.split(' ').map(n => parseInt(n, 10));
+		const wr = y === 3 ? 6 : y === 2 ? 3 : 0;
+		res += wr;
+		if (wr === 3) res += e;
+		if (wr === 0) res += e - 1 === 0 ? 3 : e - 1;
+		if (wr === 6) res += e + 1 === 4 ? 1 : e + 1;
 	});
 	console.log('Result 2', res);
 }
