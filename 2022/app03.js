@@ -5,10 +5,7 @@ const data = fs.readFileSync('data03.txt').toString('utf8').split("\n").map(r =>
 {
 	let res = 0;
 	data.forEach(row => {
-		const f = row.slice(0, row.length/2);
-		const s = row.slice(row.length/2);
-		const is = f.filter(value => s.includes(value)).filter((v, i, a) => a.indexOf(v) === i)
-		res += is.reduce((s, a) => s + a, 0)
+		res += row.slice(0, row.length/2).filter(value => row.slice(row.length/2).includes(value)).filter((v, i, a) => a.indexOf(v) === i).reduce((s, a) => s + a, 0);
 	});
 	console.log('Result 1', res);
 }
@@ -16,9 +13,7 @@ const data = fs.readFileSync('data03.txt').toString('utf8').split("\n").map(r =>
 {
 	let res = 0;
 	for (let i = 0; i < data.length-1; i+=3) {
-			const d = [data[i], data[i+1], data[i+2]];
-			const is = d.reduce((a, b) => a.filter(c => b.includes(c))).filter((v, i, a) => a.indexOf(v) === i);
-			res += is.reduce((s, a) => s + a, 0)
+			res += [data[i], data[i+1], data[i+2]].reduce((a, b) => a.filter(c => b.includes(c))).filter((v, i, a) => a.indexOf(v) === i).reduce((s, a) => s + a, 0);
 	}
 	console.log('Result 2', res);
 }
