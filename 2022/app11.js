@@ -27,7 +27,7 @@ let monkeys;
 let divider;
 const init = () => {
 	monkeys = [];
-	divider = 1;
+	divider = 1; // XXX: Remember to initialise this next time hour before!!!
 	data.forEach(bl => {
 		const mon = new monkey(bl);
 		divider *= mon.test;
